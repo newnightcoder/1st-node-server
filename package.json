@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/newnightcoder/1st-node-server/issues"
   },
-  "homepage": "https://github.com/newnightcoder/1st-node-server#readme"
+  "homepage": "https://github.com/newnightcoder/1st-node-server#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
