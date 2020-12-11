@@ -1,16 +1,31 @@
 const http = require("http");
+const fs = require("fs");
+const port = 3300;
 
-const port = 1234;
+let htmlFile, cssFile;
+
+fs.readFile("index.html", (error, data) => {
+  if (error) res.writeHead(404);
+  htmlFile = data;
+});
+
+fs.readFile("styles.css", (err, data) => {
+  if (err) res.writeHead(404);
+  cssFile = data;
+});
 
 http
   .createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.end(
-      `<body style="height:100vh; width:100vw; background-color:black; display:flex; justify-content:center; align-items:center">
-  <h1 style="color:deepskyblue">Hello World!!</h1>
-  </body>`
-    );
+    if (req.url === "/") {
+      res.writeHeader(200, "Content-Type", "text/html");
+      res.write(htmlFile);
+      res.end();
+    }
+    if (req.url === "/styles.css") {
+      res.writeHeader(200, "Content-Type", "text/css");
+      res.write(cssFile);
+      res.end();
+    }
   })
   .listen(port, (error) => {
     if (error) {
@@ -19,3 +34,24 @@ http
       console.log(`server running at port ${port}!`);
     }
   });
+
+// http
+//   .createServer((req, res) => {
+//     switch (req.url) {
+//       case "/styles.css":
+//         res.writeHeader(200, { "Content-Type": "text/css" });
+//         res.write(cssFile);
+//         break;
+//       default:
+//         res.writeHeader(200, { "Content-Type": "text/html" });
+//         res.write(htmlFile);
+//     }
+//     res.end();
+//   })
+//   .listen(port, (error) => {
+//     if (error) {
+//       console.log("problem", error);
+//     } else {
+//       console.log(`server running at port ${port}!`);
+//     }
+//   });
